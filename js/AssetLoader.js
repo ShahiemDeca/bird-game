@@ -1,33 +1,31 @@
 export default class AssetLoader {
-  constructor(imageUrls, onComplete) {
-    this.imageUrls = imageUrls;
-    this.onComplete = onComplete;
-    this.loadedImages = 0;
-    this.images = {};
+	
+	loadedImages = 0;
+	images = {};
 
-    this.loadImages();
-  }
+	constructor(imageUrls, onComplete) {
+		this.imageUrls = imageUrls;
+		this.onComplete = onComplete;
 
-  loadImages() {
-    this.imageUrls.forEach((url) => {
-      const image = new Image();
-      image.onload = () => this.onImageLoad(url, image);
-      image.src = url;
-      this.images[url] = image;
-    });
-  }
+		this.loadImages();
+	}
 
-  onImageLoad(url, image) {
-    this.loadedImages++;
-    console.log(`Image loaded: ${url}`);
+	loadImages() {
+		this.imageUrls.forEach((url) => {
+			const image = new Image();
+			image.onload = () => this.onImageLoad(url, image);
+			image.src = url;
 
-    if (this.loadedImages === this.imageUrls.length) {
-      console.log('All images loaded');
-      this.onComplete(this.images);
-    }
-  }
+			this.images[url] = image;
+		});
+	}
 
-  getImages() {
-    return this.images;
-  }
+	onImageLoad() {
+		this.loadedImages++;
+		if (this.loadedImages === this.imageUrls.length) this.onComplete(this.images);
+	}
+
+	getImages() {
+		return this.images;
+	}
 }
